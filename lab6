@@ -1,0 +1,161 @@
+test> use companydb;
+switched to db companydb
+companydb> db.employee.insertOne({id:1,name:"kavana",age:21,salary:40000});
+{
+  acknowledged: true,
+  insertedId: ObjectId('66b2570e3b7aedef68c4e49b')
+}
+companydb> db.employee.insertMany([{id:2,name:"kavya",age:22,salary:50000},{id:3,name:"kushi",age:23,salary:60000},{id:5,name:"kusuma",age:25,salary:50000}]
+);
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('66b258143b7aedef68c4e49c'),
+    '1': ObjectId('66b258143b7aedef68c4e49d'),
+    '2': ObjectId('66b258143b7aedef68c4e49e')
+  }
+}
+companydb> db.employee.find({id:3});
+[
+  {
+    _id: ObjectId('66b258143b7aedef68c4e49d'),
+    id: 3,
+    name: 'kushi',
+    age: 23,
+    salary: 60000
+  }
+]
+companydb> db.employee.find({salary:{$gt:50000}});
+[
+  {
+    _id: ObjectId('66b258143b7aedef68c4e49d'),
+    id: 3,
+    name: 'kushi',
+    age: 23,
+    salary: 60000
+  }
+]
+companydb> db.employee.find({id:4},{name:1,salary:1});
+
+companydb> db.employee.find({id:3},{name:1,salary:1});
+[
+  {
+    _id: ObjectId('66b258143b7aedef68c4e49d'),
+    name: 'kushi',
+    salary: 60000
+  }
+]
+companydb> db.employee.updateOne({name:"kavana"},{$set:{salary:90000}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+companydb> db.employee.updateOne({name:"kavya"},{$set:{salary:90000}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+companydb> db.employee.find();
+[
+  {
+    _id: ObjectId('66b2570e3b7aedef68c4e49b'),
+    id: 1,
+    name: 'kavana',
+    age: 21,
+    salary: 90000
+  },
+  {
+    _id: ObjectId('66b258143b7aedef68c4e49c'),
+    id: 2,
+    name: 'kavya',
+    age: 22,
+    salary: 90000
+  },
+  {
+    _id: ObjectId('66b258143b7aedef68c4e49d'),
+    id: 3,
+    name: 'kushi',
+    age: 23,
+    salary: 60000
+  },
+  {
+    _id: ObjectId('66b258143b7aedef68c4e49e'),
+    id: 5,
+    name: 'kusuma',
+    age: 25,
+    salary: 50000
+  }
+]
+companydb> db.employee.updateMany({salary:70000,{$set:{age:25}});
+Uncaught:
+SyntaxError: Unexpected token (1:37)
+
+> 1 | db.employee.updateMany({salary:70000,{$set:{age:25}});
+    |                                      ^
+  2 |
+
+companydb> db.employee.updateMany({salary:60000},{$set:{age:26}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+companydb> db.employee.find();
+[
+  {
+    _id: ObjectId('66b2570e3b7aedef68c4e49b'),
+    id: 1,
+    name: 'kavana',
+    age: 21,
+    salary: 90000
+  },
+  {
+    _id: ObjectId('66b258143b7aedef68c4e49c'),
+    id: 2,
+    name: 'kavya',
+    age: 22,
+    salary: 90000
+  },
+  {
+    _id: ObjectId('66b258143b7aedef68c4e49d'),
+    id: 3,
+    name: 'kushi',
+    age: 26,
+    salary: 60000
+  },
+  {
+    _id: ObjectId('66b258143b7aedef68c4e49e'),
+    id: 5,
+    name: 'kusuma',
+    age: 25,
+    salary: 50000
+  }
+]
+companydb> db.employee.deleteMany({"salary":90000});
+{ acknowledged: true, deletedCount: 2 }
+companydb> db.employee.find();
+[
+  {
+    _id: ObjectId('66b258143b7aedef68c4e49d'),
+    id: 3,
+    name: 'kushi',
+    age: 26,
+    salary: 60000
+  },
+  {
+    _id: ObjectId('66b258143b7aedef68c4e49e'),
+    id: 5,
+    name: 'kusuma',
+    age: 25,
+    salary: 50000
+  }
+]
+companydb>
