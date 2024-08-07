@@ -1,0 +1,80 @@
+create table employee_tb(
+EMPNO int,
+ENAME varchar(20),
+JOB varchar(20),
+MGR int,
+SAL bigint);
+desc employee_tb;
+
+alter table employee_tb
+add column commission int;
+
+desc employee_tb;
+
+insert into employee_tb values
+(1,"kavana","manager",50,50000,1000),
+(2,"keerthi","employe",51,60000,2000),
+(3,"kushi","developer",52,20000,3000),
+(4,"krithi","employee",56,50000,4000),
+(5,"kruthi","manger",57,70000,5000);
+
+select * from employee_tb;
+
+set sql_save_updates=0;
+
+update  employee_tb
+set JOB="serinor manager"
+where EMPNO=5;
+select * from employee_tb;
+
+alter table employee_tb
+rename column MGR to maneger;
+
+alter table employee_tb
+rename column SAL to salary;
+
+desc employee_tb;
+
+delete from employee_tb
+WHERE EMPNO=1;
+
+
+create table employee_tb2(
+EMPNO int,
+ENAME varchar(20),
+JOB varchar(20),
+MGR int,
+SAL bigint);
+
+alter table employee_tb2
+add column commission bigint;
+desc employee_tb2;
+
+insert into  employee_tb2 values
+(101,"kavana","manager",50,50000,1000),
+(102,"keerthi","employe",51,60000,2000),
+(103,"kushi","developer",52,20000,3000),
+(104,"krithi","employee",56,50000,4000),
+(105,"kruthi","manger",57,70000,5000);
+select * from employee_tb2;
+
+Set sql_safe_updates=0;
+update employee_tb2
+set JOB="senior_manager"
+where EMPNO=101;
+select * from employee_tb2;
+
+alter table employee_tb2
+rename column MGR to maneger_no;
+
+desc employee_tb2;
+
+alter table employee_tb2
+rename column SAL  to salary;
+
+desc  employee_tb2;
+
+delete from employee_tb2
+where EMPNO=102;
+
+select * from employee_tb2;
