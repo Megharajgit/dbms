@@ -1,0 +1,46 @@
+create database employe_0744;
+use employe_0744;
+
+create table employee_0744_tb(
+ENO int,
+ENMAE char(50),
+EJOB varchar(20),
+MGR_NO int,
+SAL decimal(10,2),
+COMISSION decimal(10,2)
+);
+
+desc employee_0744_tb;
+start transaction;
+begin;
+insert into employee_0744_tb values 
+(1,"kavana","manager",20,40000.00,1000.00),
+(1,"keerthi","develper",21,30000.00,2000.00),
+(1,"kushi","tester",22,50000.00,3000.00);
+select * from employee_0744_tb;
+drop table employee_0744_tb;
+
+savepoint sp1;
+insert into employee_0744_tb values
+(2,"kumari","employe",23,60000.00,4000.00);
+
+savepoint sp2;
+insert into employee_0744_tb values 
+(2,"kumari","employe",23,60000.00,4000.00);
+
+select * from employee_0744_tb;
+
+rollback to sp2;
+select * from employee_0744_tb;
+
+rollback to sp1;
+select * from employee_0744_tb;
+
+alter table employee_0744_tb 
+ modify ENO int,
+ modify EJOB varchar(20) NOT NULL,
+ modify SAL decimal(10,2) not null,
+ modify ENMAE char(50) not null,
+ modify COMISSION decimal(10,2) not null;
+ 
+ insert into employee_0744_tb values(5,null,"mananger",25,25000.00,5000.00);
