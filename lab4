@@ -1,0 +1,98 @@
+create database triggers_t1;
+use triggers_t1;
+create table customers(
+id int primary key,
+name char(255),
+age int,
+address char(255),
+salary double);
+
+create table trigger_log(
+trigger_id int primary key auto_increment,
+operations char(255),
+old_sal double,
+new_sal double,
+diff_sal double,
+log_message char(255)
+);
+desc trigger_log;
+delimiter $$
+create trigger cust_insert_t1
+   after insert on customers
+   for each row
+   begin
+   declare trigger_id int;
+   declare operations char(10);
+   declare old_sal double;
+   declare new_sal double;
+   declare diff_sal double;
+   declare log_message char(255);
+   set trigger_id=trigger_id;
+   set operations="Insert";
+   set old_sal=0;
+   set new_sal=new.salary;
+   set diff_sal=new_sal;
+   set log_message=concat("insert performed new salary is ",new_sal);
+   insert into trigger_log values(trigger_id,operations,old_sal,new_sal,diff_sal,log_message);
+   end $$
+   delimiter ;
+   insert into customers values (1,"aaa",15,"delhi",25000),
+   (2,"bbb",12,"bnglr",30000),
+   (3,"ccc",13,"ssss",40000);
+   select * from customers;
+   
+   select * from trigger_log;
+   
+   
+   delimiter $$
+create trigger cust_update_t1
+   after update on customers
+   for each row
+   begin
+   declare trigger_id int;
+   declare operations char(10);
+   declare old_sal double;
+   declare new_sal double;
+   declare diff_sal double;
+   declare log_message char(255);
+   set trigger_id=trigger_id;
+   set operations="update";
+   set old_sal=old.salary;
+   set new_sal=new.salary;
+   set diff_sal=old_sal-new_sal;
+   set log_message=concat("insert performed new salary is ",new_sal);
+   insert into trigger_log values(trigger_id,operations,old_sal,new_sal,diff_sal,log_message);
+   end $$
+   delimiter ;
+   update customers 
+   set salary=80000 
+   where id=2;
+   select * from customers;
+   select * from trigger_log;
+   
+   delimiter $$
+create trigger cust_delete_t1
+   after delete on customers
+   for each row
+   begin
+   declare trigger_id int;
+   declare operations char(10);
+   declare old_sal double;
+   declare new_sal double;
+   declare diff_sal double;
+   declare log_message char(255);
+   set trigger_id=trigger_id;
+   set operations="delete";
+   set old_sal=old.salary;
+   set new_sal=0;
+   set diff_sal=old_sal;
+   set log_message=concat("insert performed new salary is ",old_sal);
+   insert into trigger_log values(trigger_id,operations,old_sal,new_sal,diff_sal,log_message);
+   end $$
+   delimiter ;
+   
+   delete from customers
+   where id=3;
+   select * from customers;
+   
+   select * from trigger_log;
