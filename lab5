@@ -1,0 +1,40 @@
+create database cursor_tb1;
+use cursor_tb1;
+create table emppp1(
+ e_id int primary key,
+ e_name char(20),
+ age int,
+ salary double
+ );
+ desc emppp1;
+ insert into  emppp1 (e_id,e_name,age,salary) values
+ (1,"kavana",20,3000),
+ (2,"kusuma",30,5000),
+ (3,"krishi",40,6000);
+ select * from emppp1;
+ delimiter $$
+
+ create procedure fetch_emppp1_data()
+ begin
+ declare emp_id int;
+ declare emp_name char(255);
+ declare emp_age int;
+ declare emp_salary double;
+ declare emp_cursor CURSOR for
+ select e_id,e_name,age,salary 
+ from emppp1;
+ declare continue handler for not found
+ set @finished=1;
+ open emp_cursor;
+ set @finished=0;
+ cursor_loop:LOOP
+ fetch emp_cursor into emp_id,emp_name,emp_age,emp_salary;
+ if @finished=1 then
+  leave cursor_loop;
+end if;
+select concat("employe_id",emp_id,"employee_name",emp_name,"age",emp_age,"salary",emp_salary) as emppp_info;
+end loop;
+close emp_cursor;
+end $$
+delimiter ;
+call fetch_emppp1_data();
